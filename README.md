@@ -163,8 +163,4 @@ Tüm parametreler `config.yaml` içinde gruplandırılmıştır:
 - MSER yöntemi yoğun dokulu arka planlarda fazla bölge üretebilir;
   bu durumda `min_area` değerini artırın
 
----
 
-## Lisans
-
-MIT
