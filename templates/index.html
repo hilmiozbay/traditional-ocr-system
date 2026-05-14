@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>OCR Belge Tarayıcı | Geleneksel Görüntü İşleme</title>
+<meta name="description" content="Derin öğrenme kullanmadan, klasik görüntü işleme ve Tesseract OCR ile belge tarama sistemi."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand" onclick="showView('home')" style="cursor:pointer">
+    <div class="nav-logo">🔍</div>
+    <span class="nav-title">OCR Tarayıcı</span>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link active" id="nav-home"     onclick="showView('home')">Ana Sayfa</button>
+    <button class="nav-link"        id="nav-features" onclick="showView('features')">Özellikler</button>
+    <button class="nav-link"        id="nav-pipeline" onclick="showView('pipeline')">Mimari</button>
+    <button class="nav-link"        id="nav-tool"     onclick="showView('tool')">OCR Aracı</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════ VIEW: HOME ═══════════════════════════════════ -->
+<div id="view-home" class="view active-view">
+  <div class="hero">
+    <div class="hero-badge">🎓 Geleneksel Görüntü İşleme · Derin Öğrenme Yok</div>
+    <h1>Belgelerinizi Metne<br/>Dönüştürün</h1>
+    <p>OpenCV, Tesseract OCR ve klasik makine öğrenmesi yöntemleriyle güçlendirilmiş belge tarama sistemi. Türkçe tam destek.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showView('tool')">🔍 OCR'ı Dene</button>
+      <button class="btn-secondary" onclick="showView('pipeline')">📐 Mimariyi Gör</button>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <div class="stat-item"><div class="num">19+</div><div class="lbl">Klasik CV Operasyonu</div></div>
+    <div class="stat-item"><div class="num">5</div><div class="lbl">Ana Modül</div></div>
+    <div class="stat-item"><div class="num">%82+</div><div class="lbl">Ort. OCR Güveni</div></div>
+    <div class="stat-item"><div class="num">50+</div><div class="lbl">Unit Test</div></div>
+    <div class="stat-item"><div class="num">3</div><div class="lbl">Çıktı Formatı (TXT/JSON/CSV)</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ VIEW: FEATURES ═══════════════════════════════ -->
+<div id="view-features" class="view">
+  <div class="section">
+    <div class="section-tag">Özellikler</div>
+    <div class="section-title">Neler Yapılıyor?</div>
+    <p class="section-sub">Her adım bağımsız bir modülde, klasik görüntü işleme algoritmaları ile gerçekleştirilmektedir.</p>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(99,102,241,.15)">🎨</div>
+        <h3>Ön İşleme</h3>
+        <p>Görüntü kalitesini OCR için optimize eder. Gürültü giderme, kontrast iyileştirme ve eğim düzeltme içerir.</p>
+        <div class="feat-tags">
+          <span class="tag">Gaussian Blur</span>
+          <span class="tag">CLAHE</span>
+          <span class="tag">Otsu Eşikleme</span>
+          <span class="tag">Hough Deskew</span>
+          <span class="tag">Perspektif Warp</span>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(34,197,94,.12)">📐</div>
+        <h3>Belge Analizi</h3>
+        <p>Sayfayı satır, sütun ve tablo bölgelerine ayırır. Metin bölgelerini kararlı bölge analizi ile tespit eder.</p>
+        <div class="feat-tags">
+          <span class="tag">MSER</span>
+          <span class="tag">Projeksiyon Profili</span>
+          <span class="tag">Bağlı Bileşenler</span>
+          <span class="tag">Tablo Tespiti</span>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(234,179,8,.12)">🔤</div>
+        <h3>Tesseract OCR</h3>
+        <p>Türkçe + İngilizce dil desteğiyle karakter tanıma. PSM/OEM modu seçimi ve kelime güven skoru analizi.</p>
+        <div class="feat-tags">
+          <span class="tag">Türkçe (tur)</span>
+          <span class="tag">PSM Modu</span>
+          <span class="tag">LSTM OEM</span>
+          <span class="tag">Güven Skoru</span>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(239,68,68,.1)">🔧</div>
+        <h3>Son İşleme</h3>
+        <p>OCR çıktısını temizler ve Türkçe karakter bozulmalarını düzeltir. Birden fazla formatta dışa aktarır.</p>
+        <div class="feat-tags">
+          <span class="tag">Türkçe Düzeltme</span>
+          <span class="tag">Unicode NFC</span>
+          <span class="tag">TXT</span>
+          <span class="tag">JSON</span>
+          <span class="tag">CSV</span>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(99,102,241,.15)">🌐</div>
+        <h3>Web Arayüzü</h3>
+        <p>Drag & Drop görüntü yükleme, annotated görüntü çıktısı ve tek tıkla metin kopyalama özelliğine sahip modern arayüz.</p>
+        <div class="feat-tags">
+          <span class="tag">Flask</span>
+          <span class="tag">Drag & Drop</span>
+          <span class="tag">Kelime Kutuları</span>
+          <span class="tag">Kopyala</span>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:rgba(34,197,94,.12)">🧪</div>
+        <h3>Test Altyapısı</h3>
+        <p>Her modül için bağımsız pytest birim testleri. Kod değişikliklerinde otomatik doğrulama.</p>
+        <div class="feat-tags">
+          <span class="tag">pytest</span>
+          <span class="tag">50+ Test</span>
+          <span class="tag">3 Test Dosyası</span>
+          <span class="tag">Fixture</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:48px;text-align:center">
+      <button class="btn-primary" onclick="showView('tool')">🔍 OCR Aracını Dene →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ VIEW: PIPELINE ════════════════════════════════ -->
+<div id="view-pipeline" class="view">
+  <div class="section">
+    <div class="section-tag">Mimari</div>
+    <div class="section-title">Boru Hattı (Pipeline)</div>
+    <p class="section-sub">Görüntü sisteme girdiğinde şu adımlardan geçer:</p>
+    <div class="pipeline">
+      <div class="pipe-step">
+        <div class="pipe-dot">📥</div>
+        <h4>Yükleme</h4>
+        <p>JPG/PNG/PDF Unicode yol desteğiyle okunur</p>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-dot">⚙️</div>
+        <h4>Ön İşleme</h4>
+        <p>Gürültü · CLAHE · Otsu · Eğim · Perspektif</p>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-dot">📐</div>
+        <h4>Segmentasyon</h4>
+        <p>MSER · Projeksiyon · Bileşen Analizi · Tablo</p>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-dot">🔤</div>
+        <h4>OCR</h4>
+        <p>Tesseract LSTM · PSM seçimi · Güven skoru</p>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-dot">✅</div>
+        <h4>Son İşleme</h4>
+        <p>Türkçe düzeltme · TXT · JSON · CSV çıktısı</p>
+      </div>
+    </div>
+
+    <!-- Teknoloji Yığını -->
+    <div style="margin-top:64px">
+      <div class="section-tag">Teknolojiler</div>
+      <div class="section-title" style="margin-top:10px">Kullanılan Kütüphaneler</div>
+      <div class="tech-grid" style="margin-top:28px">
+        <div class="tech-card"><div class="tech-icon">👁️</div><div><h4>OpenCV</h4><p>Görüntü işleme operasyonları</p></div></div>
+        <div class="tech-card"><div class="tech-icon">🔤</div><div><h4>Tesseract OCR</h4><p>Karakter tanıma motoru</p></div></div>
+        <div class="tech-card"><div class="tech-icon">🔢</div><div><h4>NumPy</h4><p>Matris ve dizi işlemleri</p></div></div>
+        <div class="tech-card"><div class="tech-icon">🖼️</div><div><h4>Pillow</h4><p>Görüntü format desteği</p></div></div>
+        <div class="tech-card"><div class="tech-icon">🔬</div><div><h4>scikit-image</h4><p>Akademik CV algoritmaları</p></div></div>
+        <div class="tech-card"><div class="tech-icon">📄</div><div><h4>PyMuPDF</h4><p>PDF sayfa dönüşümü</p></div></div>
+        <div class="tech-card"><div class="tech-icon">🌐</div><div><h4>Flask</h4><p>Web sunucu & API</p></div></div>
+        <div class="tech-card"><div class="tech-icon">🧪</div><div><h4>pytest</h4><p>Birim test altyapısı</p></div></div>
+      </div>
+    </div>
+
+    <!-- Dosya yapısı -->
+    <div style="margin-top:64px">
+      <div class="section-tag">Proje Yapısı</div>
+      <div class="section-title" style="margin-top:10px">Modüler Mimari</div>
+      <div style="margin-top:28px;background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:28px;font-family:monospace;font-size:.88rem;line-height:2">
+        <div style="color:var(--acc2);font-weight:700">goruntu_isleme_projesi/</div>
+        <div style="padding-left:24px">
+          <span style="color:var(--grn)">app.py</span><span style="color:var(--muted)">  ← Flask web sunucusu</span><br/>
+          <span style="color:var(--grn)">config.yaml</span><span style="color:var(--muted)">  ← Tüm parametreler</span><br/>
+          <span style="color:var(--acc2);font-weight:700">main_processes/</span><br/>
+          <div style="padding-left:24px">
+            <span style="color:#f97316">preprocessing.py</span><span style="color:var(--muted)">  ← Ön işleme (gürültü, eşikleme, eğim)</span><br/>
+            <span style="color:#f97316">segmentation.py</span><span style="color:var(--muted)">  ← MSER, projeksiyon, tablo tespiti</span><br/>
+            <span style="color:#f97316">ocr.py</span><span style="color:var(--muted)">  ← Tesseract entegrasyonu</span><br/>
+            <span style="color:#f97316">postprocessing.py</span><span style="color:var(--muted)">  ← Türkçe düzeltme, çıktı üretimi</span><br/>
+          </div>
+          <span style="color:var(--acc2);font-weight:700">tests/</span><span style="color:var(--muted)">  ← pytest birim testleri</span><br/>
+          <span style="color:var(--acc2);font-weight:700">templates/</span><span style="color:var(--muted)">  ← HTML arayüz</span><br/>
+          <span style="color:var(--acc2);font-weight:700">outputs/</span><span style="color:var(--muted)">  ← TXT / JSON / CSV çıktıları</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ VIEW: TOOL ═══════════════════════════════════ -->
+<div id="view-tool" class="view">
+  <div class="section">
+    <div class="section-tag">Canlı Demo</div>
+    <div class="section-title">OCR Aracını Dene</div>
+    <p class="section-sub">Görüntünü yükle, ayarları seç ve tanınan metni kopyala.</p>
+    <div class="tool-wrap">
+      <!-- Sol: yükleme -->
+      <div>
+        <div class="panel">
+          <div class="panel-hdr"><h2>📁 Görüntü Yükle</h2></div>
+          <div class="panel-body">
+            <div id="drop-zone">
+              <span class="dz-icon">🖼️</span>
+              <h3>Görüntüyü sürükle veya tıkla</h3>
+              <p>JPG, PNG, TIFF, BMP · Maks. 16 MB</p>
+              <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.tiff,.tif,.bmp,.webp"/>
+            </div>
+            <div id="preview-area"><img id="preview-img" src="" alt="Önizleme"/></div>
+            <div class="settings-row">
+              <div class="sg">
+                <label>Dil</label>
+                <select id="lang-select">
+                  <option value="tur+eng" selected>Türkçe + İngilizce</option>
+                  <option value="tur">Yalnızca Türkçe</option>
+                  <option value="eng">Yalnızca İngilizce</option>
+                </select>
+              </div>
+              <div class="sg">
+                <label>PSM Modu</label>
+                <select id="psm-select">
+                  <option value="3" selected>3 · Otomatik</option>
+                  <option value="4">4 · Tek sütun</option>
+                  <option value="6">6 · Metin bloğu</option>
+                  <option value="7">7 · Tek satır</option>
+                  <option value="11">11 · Seyrek metin</option>
+                </select>
+              </div>
+            </div>
+            <button id="ocr-btn" disabled>
+              <span id="btn-spinner" class="spinner"></span>
+              <span id="btn-text">🔍 OCR Uygula</span>
+            </button>
+            <div class="prog-wrap" id="prog-wrap"><div class="prog-bar" id="prog-bar"></div></div>
+            <div id="error-box"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sağ: sonuç -->
+      <div>
+        <div id="result-col">
+          <div class="panel" style="margin-bottom:20px">
+            <div class="panel-hdr">
+              <h2>🖼️ Annotated Görüntü</h2>
+              <div class="legend">
+                <div class="legend-item"><div class="leg-dot" style="background:#22c55e"></div>≥80%</div>
+                <div class="legend-item"><div class="leg-dot" style="background:#eab308"></div>50-79%</div>
+                <div class="legend-item"><div class="leg-dot" style="background:#ef4444"></div>&lt;50%</div>
+              </div>
+            </div>
+            <div class="panel-body">
+              <img id="annotated-img" src="" alt="Annotated"/>
+              <div class="seg-info" id="seg-info"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-hdr">
+              <h2>📝 Tanınan Metin</h2>
+              <div class="sbadges" id="stat-badges"></div>
+            </div>
+            <div class="panel-body">
+              <div class="txt-tb">
+                <h3>Üzerine tıklayarak düzenleyebilirsiniz</h3>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <button class="copy-btn" id="copy-btn" onclick="copyText()" title="Metni panoya kopyala">📋 Kopyala</button>
+                  <button class="copy-btn" id="save-btn" onclick="saveText()" title="Metni TXT olarak kaydet">💾 Kaydet</button>
+                </div>
+              </div>
+              <textarea id="ocr-text" placeholder="OCR sonucu burada görünecek — tıklayarak düzenleyebilirsiniz..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div id="empty-ph">
+          <div class="big">📄</div>
+          <p>Görüntü yükleyip OCR uygulayın</p>
+          <p style="font-size:.82rem">Tanınan metin ve annotated görüntü burada çıkar</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>🔍 OCR Belge Tarayıcı · Geleneksel Görüntü İşleme Sistemi</p>
+  <p style="margin-top:6px">Hazırlayan <span style="color:var(--acc2);font-weight:600">Hilmi Özbay</span> &nbsp;·&nbsp; </p>
+</footer>
+
+<script>
+/* ── View yönetimi ─────────────────────────────────── */
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active-view'));
+  document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active-view');
+  const nb=document.getElementById('nav-'+name);
+  if(nb)nb.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── OCR ───────────────────────────────────────────── */
+const fi=document.getElementById('file-input'),
+      dz=document.getElementById('drop-zone'),
+      pa=document.getElementById('preview-area'),
+      pi=document.getElementById('preview-img'),
+      btn=document.getElementById('ocr-btn'),
+      bt=document.getElementById('btn-text'),
+      bs=document.getElementById('btn-spinner'),
+      pw=document.getElementById('prog-wrap'),
+      pb=document.getElementById('prog-bar'),
+      eb=document.getElementById('error-box'),
+      rc=document.getElementById('result-col'),
+      ep=document.getElementById('empty-ph'),
+      ot=document.getElementById('ocr-text'),
+      ai=document.getElementById('annotated-img'),
+      sb=document.getElementById('stat-badges'),
+      si=document.getElementById('seg-info');
+
+let selFile=null;
+
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0])});
+fi.addEventListener('change',()=>{if(fi.files[0])handleFile(fi.files[0])});
+
+function handleFile(f){
+  selFile=f;
+  const r=new FileReader();
+  r.onload=e=>{pi.src=e.target.result;pa.style.display='block'};
+  r.readAsDataURL(f);
+  btn.disabled=false;
+  eb.style.display='none';
+}
+
+btn.addEventListener('click',async()=>{
+  if(!selFile)return;
+  btn.disabled=true;bs.style.display='block';bt.textContent='İşleniyor...';
+  eb.style.display='none';pw.style.display='block';
+  let p=0;
+  const iv=setInterval(()=>{p=Math.min(p+Math.random()*12,88);pb.style.width=p+'%'},300);
+  try{
+    const fd=new FormData();
+    fd.append('file',selFile);
+    fd.append('lang',document.getElementById('lang-select').value);
+    fd.append('psm',document.getElementById('psm-select').value);
+    const res=await fetch('/ocr',{method:'POST',body:fd});
+    const d=await res.json();
+    clearInterval(iv);pb.style.width='100%';
+    setTimeout(()=>{pw.style.display='none';pb.style.width='0%'},600);
+    if(!d.success)throw new Error(d.error||'Bilinmeyen hata');
+    ai.src='data:image/png;base64,'+d.annotated_image;
+    ot.value=d.text;
+    const cc=d.confidence>=80?'grn':d.confidence>=50?'ylw':'';
+    sb.innerHTML=`<div class="sbadge ${cc}">🎯 <span class="v">${d.confidence}%</span></div>
+      <div class="sbadge blu">📝 <span class="v">${d.word_count}</span> kelime</div>
+      <div class="sbadge">⏱️ <span class="v">${d.elapsed}s</span></div>`;
+    if(d.segments)si.innerHTML=`<span class="seg-tag">📏 ${d.segments.lines} Satır</span>
+      <span class="seg-tag">📊 ${d.segments.columns} Sütun</span>
+      <span class="seg-tag">🗂️ ${d.segments.tables} Tablo</span>`;
+    ep.style.display='none';rc.style.display='block';
+  }catch(e){
+    clearInterval(iv);pw.style.display='none';
+    eb.style.display='block';eb.textContent='❌ Hata: '+e.message;
+  }finally{btn.disabled=false;bs.style.display='none';bt.textContent='🔍 OCR Uygula'}
+});
+
+function copyText(){
+  const t=ot.value;if(!t)return;
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=document.getElementById('copy-btn');
+    b.textContent='✅ Kopyalandı!';b.classList.add('copied');
+    setTimeout(()=>{b.innerHTML='📋 Kopyala';b.classList.remove('copied')},2000);
+  });
+}
+
+function saveText(){
+  const t=ot.value;if(!t)return;
+  const blob=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='ocr_sonucu.txt';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+  const b=document.getElementById('save-btn');
+  b.textContent='✅ Kaydedildi!';b.classList.add('copied');
+  setTimeout(()=>{b.textContent='💾 Kaydet';b.classList.remove('copied')},2000);
+}
+</script>
+</body>
+</html>

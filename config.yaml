@@ -1,0 +1,97 @@
+general:
+  log_level: "INFO"
+  output_dir: "outputs"
+  temp_dir: "temp"
+  supported_formats: [".jpg", ".jpeg", ".png", ".tiff", ".tif", ".bmp", ".pdf"]
+
+preprocessing:
+  resize:
+    enabled: true
+    max_width: 3000
+    max_height: 4000
+    dpi_target: 300
+  denoising:
+    method: "gaussian"        # gaussian | median | bilateral
+    gaussian_kernel: 3
+    median_kernel: 3
+  thresholding:
+    method: "otsu"            # otsu | adaptive_mean | adaptive_gaussian
+    adaptive_block_size: 35
+    adaptive_c: 10
+    otsu_blur_before: true
+  deskew:
+    enabled: true
+    method: "hough"           # hough | projection
+    max_angle: 15.0
+    hough_threshold: 100
+  perspective:
+    enabled: true
+    auto_detect: true
+    margin: 10
+  contrast:
+    method: "clahe"           # clahe | histogram_eq | none
+    clahe_clip_limit: 2.0
+    clahe_tile_grid: [8, 8]
+  morphology:
+    apply_opening: false
+    apply_closing: false
+    kernel_size: [3, 3]
+
+segmentation:
+  connected_components:
+    min_area: 50
+    max_area: 500000
+    min_aspect_ratio: 0.1
+    max_aspect_ratio: 10.0
+  text_detection:
+    method: "mser"            # mser | projection | contour
+    mser_delta: 5
+    mser_min_area: 60
+    mser_max_area: 14400
+  projection:
+    horizontal_threshold: 5
+    vertical_threshold: 5
+    min_line_gap: 10
+  table_detection:
+    enabled: true
+    min_line_length: 100
+    line_gap: 10
+    kernel_horizontal: [1, 40]
+    kernel_vertical: [40, 1]
+
+ocr:
+  tesseract:
+    language: "tur+eng"
+    psm: 3
+    oem: 1
+    dpi: 300
+    config_extra: ""
+  confidence:
+    min_word_confidence: 30
+    min_char_confidence: 20
+
+postprocessing:
+  normalization:
+    fix_unicode: true
+    remove_control_chars: true
+    normalize_whitespace: true
+    fix_punctuation: true
+  turkish_corrections:
+    enabled: true
+    common_replacements: true
+  spell_check:
+    enabled: false
+    language: "tr_TR"
+
+output:
+  formats: ["txt", "json", "csv"]
+  include_confidence: true
+  include_bboxes: true
+  include_metadata: true
+  encoding: "utf-8"
+
+pdf:
+  dpi: 200
+  first_page: 1
+  last_page: null
+  thread_count: 2

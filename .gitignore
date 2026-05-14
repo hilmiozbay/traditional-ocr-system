@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+.venv/
+venv/
+env/
+
+# Yüklenen / çıktı dosyaları
+temp/uploads/*
+!temp/uploads/.gitkeep
+outputs/*
+!outputs/.gitkeep
+
+# Test görselleri (büyük dosyalar)
+*.png
+*.jpg
+*.jpeg
+*.tiff
+*.bmp
+*.webp
+
+# IDE
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
+
+# pytest
+.pytest_cache/
+.coverage
+
+# Log
+*.log

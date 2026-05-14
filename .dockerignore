@@ -1,0 +1,40 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Sanal ortam
+.venv/
+venv/
+env/
+
+# Geçici / yüklenen dosyalar (boş klasörler tutulacak)
+temp/uploads/*
+outputs/*
+!temp/uploads/.gitkeep
+!outputs/.gitkeep
+
+# Test görselleri
+*.png
+*.jpg
+*.jpeg
+*.tiff
+*.bmp
+*.webp
+sample_images/
+
+# IDE / sistem
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
+
+# pytest cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Log dosyaları
+*.log
